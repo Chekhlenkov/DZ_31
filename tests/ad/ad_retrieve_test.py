@@ -12,6 +12,6 @@ def test_ad_retrieve(client, access_token):
     response = client.get(f"/ads/{ad.pk}/")
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
-    response = client.get(f"/ads/{ad.pk}/", HTTP_UNAUTHORIZATION=f"Bearer {access_token}")
+    response = client.get(f"/ads/{ad.pk}/", HTTP_AUTHORIZATION=f"Bearer {access_token}")
     assert response.status_code == status.HTTP_200_OK
     assert response.data == AdDetailSerializer(ad).data

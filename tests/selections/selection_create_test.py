@@ -9,17 +9,17 @@ def test_selection_create(client, user_with_access_token):
     user, acc_token = user_with_access_token
     ad_list = AdFactory.create_batch(8)
     data = {
-         "name": "test_podb",
+         "name": "test",
          "items": [ad.pk for ad in ad_list[1:5]]
     }
 
     expected_data = {
         "id": 1,
         "owner": user.username,
-        "name": "test_podb",
+        "name": "test",
         "items": [ad.pk for ad in ad_list[1:5]]
     }
 
-    response = client.post("/selection/", data=data, HTTP_UNAUTHORIZATION=f"Bearer {acc_token}")
+    response = client.post("/selection/", data=data, HTTP_AUTHORIZATION=f"Bearer {acc_token}")
     assert response.status_code == status.HTTP_201_CREATED
     assert response.data == expected_data
