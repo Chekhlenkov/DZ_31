@@ -6,9 +6,9 @@ import pytest
 def access_token(client, django_user_model):
     username = "test_user"
     password = "test_passwd"
-    django_user_model.objects.create_user(username=username, password=password, role='admin')
+    django_user_model.objects.create(username=username, password=password, role='admin')
     response = client.post("/user/token/", data={"username": username, "password": password})
-    return response.data.get(client, "access")
+    return response.data.get("access")
 
 
 @pytest.fixture
@@ -16,6 +16,6 @@ def access_token(client, django_user_model):
 def user_with_access_token(client, django_user_model):
     username = "test_user"
     password = "test_passwd"
-    django_user_model.objects.create_user(username=username, password=password, role='admin')
+    test_user = django_user_model.objects.create(username=username, password=password, role='admin')
     response = client.post("/user/token/", data={"username": username, "password": password})
-    return response.data.get("client", "access")
+    return test_user, response.data.get("access")
